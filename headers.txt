@@ -1,0 +1,6 @@
+HTTP/1.1 302 
+Set-Cookie: JSESSIONID=FB152DFACBCEBE04440BA191D9131E52; Path=/; HttpOnly
+Location: http://localhost:8080/
+Content-Length: 0
+Date: Sun, 29 Jun 2025 10:57:36 GMT
+
