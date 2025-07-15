@@ -39,7 +39,6 @@ public class TaskController {
             Task task = taskService.createTask(request);
             return ResponseEntity.ok(task);
         }catch(RuntimeException e){
-            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -63,18 +62,17 @@ public class TaskController {
 
             taskService.deleteTask(id);
 
-            return ResponseEntity.noContent().build(); // 204 No Content
+            return ResponseEntity.noContent().build();
         } catch (TaskNotFoundException e) {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return ResponseEntity.notFound().build();
         } catch (UnauthorizedException e) {
-            return ResponseEntity.status(403).body(e.getMessage()); // 403 Forbidden
+            return ResponseEntity.status(403).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Internal server error"); // 500 Internal Server Error
+            return ResponseEntity.status(500).body("Internal server error");
         }
     }
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<String> handleAccessDeniedControllerException(AccessDeniedException ex) {
-        // This handler is specific to this controller
         return new ResponseEntity<>("Forbidden by Controller: " + ex.getMessage(), HttpStatus.FORBIDDEN);
     }
     public class TaskNotFoundException extends RuntimeException {

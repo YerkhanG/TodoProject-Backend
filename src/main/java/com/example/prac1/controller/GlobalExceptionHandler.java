@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory; // Import LoggerFactory
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class); // Initialize Logger
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
-        logger.warn("Access Denied: {}", ex.getMessage()); // Use warn or info for denied access
+        logger.warn("Access Denied: {}", ex.getMessage());
         return new ResponseEntity<>("Forbidden: " + ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
@@ -38,7 +38,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleAllExceptions(Exception ex) {
-        // --- CRUCIAL CHANGE HERE: Log the full stack trace ---
         logger.error("An unexpected error occurred during request processing.", ex);
         return new ResponseEntity<>("An unexpected internal server error occurred. Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
     }

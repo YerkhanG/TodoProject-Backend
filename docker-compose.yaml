@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: pet_proj1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 5527193
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/pet_proj1
+
+  frontend:
+    build: C:/Users/User/Onedrive/Desktop/todo-project/dashboard-frontend
+    depends_on:
+      - app
+    ports:
+      - "3000:80"
+
+volumes:
+  postgres_data:

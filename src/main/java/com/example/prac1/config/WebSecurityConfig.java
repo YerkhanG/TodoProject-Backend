@@ -50,17 +50,15 @@ public class WebSecurityConfig {
     public UserDetailsService userDetailsService(){
         return customUserDetailsService;
     }
-    //For testing
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
-//                        .requestMatchers("/api/tasks").authenticated()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/register").permitAll()
-//                        .requestMatchers("/api/tasks/**").authenticated()
+                        .requestMatchers("/api/tasks/**").authenticated()
                         .requestMatchers("/api/roles").hasRole("ADMIN")
                         .requestMatchers("/api/users/{userId}/roles/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "USER")
@@ -68,10 +66,9 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptions -> exceptions
-                        // This handles unauthenticated users trying to access protected resources (returns 401)
+
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                        // This handles authenticated users who don't have permission (returns 403)
-                        .accessDeniedHandler(customAccessDeniedHandler) // <--- ADD THIS LINE!
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -98,7 +95,7 @@ public class WebSecurityConfig {
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
         org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // In production, specify your frontend URL
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
