@@ -1,6 +1,8 @@
 package com.example.prac1.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 
 public class TaskCreationDto {
     @NotBlank(message = "Title is required")
@@ -31,4 +33,5 @@ public class TaskCreationDto {
     public void setStatus(String status) {
         this.status = status;
     }
+
 }

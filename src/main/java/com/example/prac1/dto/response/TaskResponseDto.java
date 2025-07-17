@@ -1,37 +1,20 @@
-package com.example.prac1.model;
+package com.example.prac1.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.example.prac1.model.Task;
 
-@Entity
-public class Task {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TaskResponseDto {
     private Long id;
     private String title;
     private String description;
-
     private String status;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
-    private User user;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUser(User user){
-        this.user = user;
-    }
-    public User getUser(){
-        return this.user;
-    }
+    private Long userId;
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -56,5 +39,13 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

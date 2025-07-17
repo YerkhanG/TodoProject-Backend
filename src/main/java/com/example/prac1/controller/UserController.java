@@ -1,6 +1,7 @@
 package com.example.prac1.controller;
 
 import com.example.prac1.dto.UserRegistrationDto;
+import com.example.prac1.dto.response.UserResponseDto;
 import com.example.prac1.model.Role;
 import com.example.prac1.model.User;
 import com.example.prac1.service.UserService;
@@ -11,9 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -22,23 +24,26 @@ import java.util.Set;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+    @Autowired
+    private final ModelMapper modelMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
     @Operation(summary = "Registers a User")
     @ApiResponses(value ={
             @ApiResponse(responseCode = "201", description = "Successfully registered a User.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = User.class))),
+                            schema = @Schema(implementation = UserResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request. Username already exists.",
                     content = @Content)
     })
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@Valid @RequestBody UserRegistrationDto userDto) {
+    public ResponseEntity<UserResponseDto> registerUser(@Valid @RequestBody UserRegistrationDto userDto) {
         try {
             User newUser = userService.registerNewUser(userDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(convertToResponseDto(newUser));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -47,17 +52,17 @@ public class UserController {
     @ApiResponses(value ={
             @ApiResponse(responseCode = "200", description = "Successfully assigned a role to a User.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = User.class))),
+                            schema = @Schema(implementation = UserResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request: User not found or invalid user ID, or Role not found.",
                     content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden: User does not have sufficient permissions.",
                     content = @Content)
     })
     @PostMapping("/users/{userId}/roles/{roleName}")
-    public ResponseEntity<User> assignRoleToUser(@PathVariable Long userId , @PathVariable String roleName){
+    public ResponseEntity<UserResponseDto> assignRoleToUser(@PathVariable Long userId , @PathVariable String roleName){
         try{
             User updatedUser = userService.assignRoleToUser(userId, roleName);
-            return ResponseEntity.ok(updatedUser);
+            return ResponseEntity.ok(convertToResponseDto(updatedUser));
         }catch(RuntimeException e ){
             return ResponseEntity.badRequest().build();
         }
@@ -80,6 +85,14 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    private UserResponseDto convertToResponseDto(User user){
+        UserResponseDto dto = modelMapper.map(user , UserResponseDto.class);
+        if(user.getRoles() != null){
+            dto.setRoles(user.getRoles());
+        }
+        return dto;
     }
 
 

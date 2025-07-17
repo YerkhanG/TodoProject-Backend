@@ -1,5 +1,6 @@
 package com.example.prac1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -60,5 +61,9 @@ public class User {
 
     public String getPassword() {
         return this.password;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 }
