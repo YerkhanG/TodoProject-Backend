@@ -1,6 +1,6 @@
 package com.example.prac1.controller;
 
-import com.example.prac1.dto.TaskCreationDto;
+import com.example.prac1.dto.creation.TaskCreationDto;
 import com.example.prac1.dto.response.TaskResponseDto;
 import com.example.prac1.model.Task;
 import com.example.prac1.service.TaskService;

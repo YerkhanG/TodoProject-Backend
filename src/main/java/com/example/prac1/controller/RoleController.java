@@ -1,6 +1,6 @@
 package com.example.prac1.controller;
 
-import com.example.prac1.dto.RoleCreationDto;
+import com.example.prac1.dto.creation.RoleCreationDto;
 import com.example.prac1.model.Role;
 import com.example.prac1.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;

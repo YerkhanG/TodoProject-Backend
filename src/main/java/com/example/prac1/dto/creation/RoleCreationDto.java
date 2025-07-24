@@ -1,4 +1,4 @@
-package com.example.prac1.dto;
+package com.example.prac1.dto.creation;
 
 public class RoleCreationDto {
     private String roleName;

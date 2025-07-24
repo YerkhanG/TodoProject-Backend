@@ -18,13 +18,24 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/pet_proj1
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 5527193
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      JWT_SECRET: mySecretKey123456789012345678901234567890  # Add this
+      JWT_EXPIRATION: 86400000
 
   frontend:
-    build: C:/Users/User/Onedrive/Desktop/todo-project/dashboard-frontend
+    build:
+      context: C:/Users/User/Onedrive/Desktop/todo-project/dashboard-frontend
+      dockerfile: Dockerfile
     depends_on:
       - app
     ports:
       - "3000:80"
+    environment:
+      VITE_API_URL: /api
 
 volumes:
   postgres_data:

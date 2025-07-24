@@ -1,6 +1,6 @@
 package com.example.prac1.service;
 
-import com.example.prac1.dto.TaskCreationDto;
+import com.example.prac1.dto.creation.TaskCreationDto;
 import com.example.prac1.model.Task;
 import com.example.prac1.model.User;
 import com.example.prac1.repo.TaskRepository;

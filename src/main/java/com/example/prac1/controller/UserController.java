@@ -1,6 +1,6 @@
 package com.example.prac1.controller;
 
-import com.example.prac1.dto.UserRegistrationDto;
+import com.example.prac1.dto.creation.UserRegistrationDto;
 import com.example.prac1.dto.response.UserResponseDto;
 import com.example.prac1.model.Role;
 import com.example.prac1.model.User;

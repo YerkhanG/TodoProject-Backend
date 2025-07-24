@@ -1,4 +1,4 @@
-package com.example.prac1.dto;
+package com.example.prac1.dto.creation;
 
 import jakarta.validation.constraints.NotBlank;
 import org.modelmapper.ModelMapper;

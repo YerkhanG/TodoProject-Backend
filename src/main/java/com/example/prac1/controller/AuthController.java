@@ -61,7 +61,7 @@ public class AuthController {
             errorResponse.put("message", "The provided username does not exist.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Authentication failed");
             errorResponse.put("message", "An error occurred during authentication");
